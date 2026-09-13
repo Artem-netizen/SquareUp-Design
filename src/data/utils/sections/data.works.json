@@ -1,0 +1,102 @@
+[
+  {
+    "subtitle": "E-Commerce Platform for Fashion Hub",
+    "images": {
+      "baseImg": "/assets/images/works/chic-boutique.jpg",
+      "webpImg": "/assets/images/works/webp/chic-boutique.webp"
+    },
+    "title": "Chic Boutique",
+    "link": "htttps:/www.chicboutique.com",
+    "text": "We developed a visually stunning and user-friendly e-commerce platform for Chic Boutique, a renowned fashion retailer. The platform featured seamless product browsing, secure payment integration, and personalized recommendations, resulting in increased online sales and customer satisfaction."
+  },
+  {
+    "subtitle": "Mobile App for Food Delivery Service",
+    "images": {
+      "baseImg": "/assets/images/works/hungry-bites.jpg",
+      "webpImg": "/assets/images/works/webp/hungry-bites.webp"
+    },
+    "title": "HungryBites",
+    "link": "htttps:/www.hungrybites.com",
+    "text": "HungryBites approached us to create a mobile app that streamlined their food delivery service. The app included features like real-time order tracking, easy menu customization, and secure payment options, resulting in improved customer convenience and operational efficiency."
+  },
+  {
+    "subtitle": "Booking and Reservation System for Event Management",
+    "images": {
+      "baseImg": "/assets/images/works/event-masters.jpg",
+      "webpImg": "/assets/images/works/webp/event-masters.webp"
+    },
+    "title": "EventMasters",
+    "link": "htttps:/www.eventmasters.com",
+    "text": "EventMasters required a comprehensive booking and reservation system for their event management services. We designed a user-friendly platform that allowed seamless event registration, ticketing, and attendee management, resulting in streamlined processes and enhanced customer experiences."
+  },
+  {
+    "subtitle": "Custom Software for Workflow Automation",
+    "images": {
+      "baseImg": "/assets/images/works/protech-solutions.jpg",
+      "webpImg": "/assets/images/works/webp/protech-solutions.webp"
+    },
+    "title": "ProTech Solutions",
+    "link": "htttps:/www.protechsolutions.com",
+    "text": "HungryBites approached us to create a mobile app that streamlined their food delivery service. The app included features like real-time order tracking, easy menu customization, and secure payment options, resulting in improved customer convenience and operational efficiency."
+  },
+  {
+    "subtitle": "Web Portal for Real Estate Listings",
+    "images": {
+      "baseImg": "/assets/images/works/dream-realty.jpg",
+      "webpImg": "/assets/images/works/webp/dream-realty.webp"
+    },
+    "title": "Dream Homes Realty",
+    "link": "htttps:/www.dreamhomesrealty.com",
+    "text": "Dream Homes Realty wanted an intuitive web portal for showcasing their property listings. We created a visually appealing platform with advanced search filters, virtual tours, and a user-friendly interface, enabling potential buyers to find their dream homes easily."
+  },
+  {
+    "subtitle": "Mobile App for Fitness Tracking",
+    "images": {
+      "baseImg": "/assets/images/works/fitlife-tracker.jpg",
+      "webpImg": "/assets/images/works/webp/fitlife-tracker.webp"
+    },
+    "title": "FitLife Tracker",
+    "link": "htttps:/www.fitlifetracker.com",
+    "text": "FitLife Tracker approached us to develop a mobile app that tracked fitness activities and provided personalized workout plans. The app included features such as activity tracking, progress monitoring, and social sharing, empowering users to lead healthier lifestyles."
+  },
+  {
+    "subtitle": "Custom Software for Supply Chain Management",
+    "images": {
+      "baseImg": "/assets/images/works/logistics-solutions.jpg",
+      "webpImg": "/assets/images/works/webp/logistics-solutions.webp"
+    },
+    "title": "Global Logistics Solutions",
+    "link": "htttps:/www.globallogisticssolutions.com",
+    "text": "Global Logistics Solutions required a custom software solution to streamline their supply chain operations. We developed a scalable system that optimized inventory management, automated order processing, and enhanced logistics tracking, resulting in improved efficiency and reduced costs."
+  },
+  {
+    "subtitle": "Educational Platform for Online Learning",
+    "images": {
+      "baseImg": "/assets/images/works/edu-connect.jpg",
+      "webpImg": "/assets/images/works/webp/edu-connect.webp"
+    },
+    "title": "EduConnect",
+    "link": "htttps:/www.educonnect.com",
+    "text": "EduConnect sought an educational platform to facilitate online learning. We developed an interactive platform with virtual classrooms, multimedia content, and student progress tracking, providing a seamless and engaging learning experience for students of all ages."
+  },
+  {
+    "subtitle": "Mobile App for Travel Planning",
+    "images": {
+      "baseImg": "/assets/images/works/wander-wise.jpg",
+      "webpImg": "/assets/images/works/webp/wander-wise.webp"
+    },
+    "title": "WanderWise",
+    "link": "htttps:/www.wanderwise.com",
+    "text": "WanderWise wanted a mobile app that simplified travel planning and discovery. We developed an app with features like personalized itineraries, destination guides, and integrated booking options, making it easier for travelers to explore new destinations."
+  },
+  {
+    "subtitle": "Web Application for Customer Relationship Management",
+    "images": {
+      "baseImg": "/assets/images/works/connectCRM.jpg",
+      "webpImg": "/assets/images/works/webp/connectCRM.webp"
+    },
+    "title": "ConnectCRM",
+    "link": "htttps:/www.connectcrm.com",
+    "text": "ConnectCRM needed a web application to manage their customer relationships effectively. We developed a feature-rich CRM platform with lead management, communication tracking, and data analytics, enabling businesses to nurture customer relationships and drive growth."
+  }
+]

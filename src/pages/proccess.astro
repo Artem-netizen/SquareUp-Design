@@ -1,0 +1,116 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import GridList from "@components/shared/GridList.astro";
+import DescriptionPage from "@components/ui/DescriptionPage.astro";
+import Section from "@components/ui/Section.astro";
+import Banner from "@components/ui/Banner.astro";
+import Card from "@components/ui/Card.astro";
+
+import processDescribe from "@data/pages/proccess/data.process.json";
+---
+<PageLayout title="Process of Starting the Project">
+  <Banner
+    title="Process of Starting the Project"
+    description="At SquareUp, we value transparency, collaboration, and delivering exceptional results."
+    currentImage="abstract-4"
+  />
+  
+  <Section bordersInline>
+    <DescriptionPage
+       text="We follow a structured and collaborative process to ensure the successful delivery of exceptional digital products. Our process combines industry best practices, creative thinking, and a client-centric approach."
+       badge="Here's an overview of our typical process:"
+    />
+    
+    <GridList
+       tag="ol"
+       className="process__list counter"
+       columns={2}
+    >
+      {processDescribe.map(item => (
+        <li class="process__item">
+          <Card
+            layout="counter"
+            variant="enumeration"
+            className="process__title"
+            title={item.title}
+            text={item.description}
+            styledEl={{
+              counter: {
+                size: 'display',
+                lineHeight: 1,
+                letterSpacing: 'normal',
+                color: 'var(--color-green-80)',
+              }
+            }}
+          />
+        </li>
+      ))}
+    </GridList>
+  </Section>
+  
+  <Banner
+     icon={{
+       name: 'cube'
+     }}
+     variant="secondary"
+     title="Thank you for your Interest in SquareUp."
+     description="We would love to hear from you and discuss how we can help bring your digital ideas to life. Here are the different ways you can get in touch with us."
+     currentImage="abstract-5"
+     isButton
+  />
+</PageLayout>
+
+<style lang="scss" is:global>
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+  
+  .process {
+    &__list {
+      border-top: var(--border);
+    }
+    
+    &__item {
+      @include flex-custom(
+        $direction: column,
+        $gap: rem(30),
+      );
+      padding: rem(40) rem(24);
+      border-bottom: var(--border);
+      @include mobile {
+        border-right: var(--border);
+      }
+      @include tablet {
+        padding: rem(80) rem(40);
+        gap: rem(40);
+      }
+      @include laptop {
+        padding: rem(100) rem(50);
+        gap: rem(50);
+      }
+      &:nth-child(even) {
+        border-right: none;
+      }
+      &:last-of-type {
+        border-bottom: none;
+      }
+    }
+    
+    &__title {
+      padding-left: rem(10);
+      position: relative;
+      z-index: var(--z-index-1);
+      flex-grow: 1;
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: rem(-20);
+        z-index: var(--z-index-behind);
+        width: 100%;
+        height: rem(1);
+        border-bottom: var(--border);
+      }
+    }
+  }
+</style>

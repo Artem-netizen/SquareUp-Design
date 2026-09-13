@@ -1,0 +1,75 @@
+---
+import Section from "@components/ui/Section.astro";
+import logoList from "@data/utils/marqueeLogos.json";
+---
+
+<Section
+   className="marquee"
+   bordersInline
+>
+  <ul class="marquee__wrapper">
+    {logoList.map(item => (
+       <li class="marquee__item">
+         <picture>
+           <source srcset={item.srcMod} type="image/webp" />
+           <img class="marquee__img" src={item.srcBase} alt={item.alt} loading="lazy" />
+         </picture>
+       </li>
+    ))}
+  </ul>
+</Section>
+
+<style lang="scss">
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+  
+  .marquee {
+    &__wrapper {
+      @include flex-custom(
+        $alignItems: center,
+        $wrap: wrap,
+      );
+      padding-top: rem(20);
+      border-bottom: var(--border);
+      @include tablet {
+        padding-top: 0;
+        flex-wrap: nowrap;
+        gap: rem(20);
+      }
+    }
+    
+    &__item {
+      @include flex-center();
+      padding-block: rem(30);
+      width: calc(100% / 2);
+      border-bottom: var(--border);
+      &:nth-child(odd) {
+        border-right: var(--border);
+      }
+      &:nth-last-child(-n + 2) {
+        border-bottom: none;
+      }
+      @include tablet {
+        padding-block: rem(46);
+        border-bottom: none;
+        &:nth-child(odd) {
+          border-right: none;
+        }
+      }
+      @include laptop {
+        padding-block: rem(60);
+      }
+    }
+    
+    &__img {
+      margin-inline: auto;
+      width: calc(100% - 20%);
+      height: 100%;
+      object-fit: cover;
+      @include tablet {
+        width: 100%;
+      }
+    }
+  }
+</style>

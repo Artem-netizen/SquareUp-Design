@@ -1,0 +1,178 @@
+---
+import Button from "@components/ui/Button.astro";
+import { navLinks } from "@data/utils/data.navLinks";
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header">
+  <div class="container">
+    <div class="header__wrapper">
+      <a class="logo" href="/" aria-label="Logo Agency SquareUp">
+        <picture>
+          <source srcset="/assets/images/logo.webp" type="image/webp" />
+          <img src="/assets/images/logo.svg" alt="SquareUp logo" />
+        </picture>
+      </a>
+      
+      <nav class="nav">
+        <ul class="nav__list">
+          {navLinks.map((item) => {
+           const isActive = currentPath === item.path;
+             
+           return (
+             <li class="nav__item">
+               <Button
+                  className={["nav__link", { "is-active": isActive }]}
+                  size="sm"
+                  href={item.path}
+                  hoverEffect
+               >
+                 {item.name}
+               </Button>
+             </li>
+            )
+          })}
+        </ul>
+      </nav>
+      
+      <Button
+         className="header__btn-action"
+         href="/"
+         variant="accent"
+         size="sm"
+         aria-label="Contact with us"
+         hoverEffect
+      >
+        Contact Us
+      </Button>
+      
+      <button
+        class="header__menu-btn"
+        type="button"
+        aria-label="Open/Close menu"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style lang="scss" is:global>
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins";
+  @import "@styles/helpers/media";
+
+  .header {
+    padding: rem(40) 0 rem(20);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-index-5);
+    width: 100%;
+    background-color: var(--color-dark-11);
+    border-bottom: rem(1) solid var(--color-dark-15);
+    @include tablet {
+      padding: rem(20) 0;
+    }
+
+    &__wrapper {
+      @include flex-custom(
+        true,
+        $alignItems: center,
+        $jc: space-between,
+        $gap: rem(20),
+      );
+    }
+    
+    &__btn-action {
+      display: none;
+      @include tablet {
+        display: inline-flex;
+      }
+    }
+  }
+
+  .nav {
+    margin-inline: auto;
+    display: none;
+    @include tablet {
+      display: block;
+    }
+    
+    &__list {
+      @include flex-custom(
+        true,
+        $alignItems: center,
+        $jc: space-between,
+      );
+    }
+    
+    &__link {
+      &.is-active {
+        @include styled-button(
+          $bg: var(--color-dark-15),
+          $color: var(--color-light),
+        );
+        font-weight: 600;
+      }
+    }
+  }
+  
+  .header__menu-btn {
+    @include tablet {
+      display: none;
+    }
+    @include square(46);
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-dark-15);
+    border-radius: rem(6);
+    span {
+      @include abs-center;
+      display: block;
+      width: rem(25);
+      height: rem(2);
+      border-radius: inherit;
+      background-color: var(--color-green-80);
+      transition: transform var(--transition-duration);
+      user-select: none;
+      &:first-child {
+        top: rem(15);
+      }
+
+      &:nth-child(2) {
+        top: 50%;
+      }
+      
+      &:last-child {
+        top: calc(rem(15) + rem(16));
+        left: unset;
+        right: rem(5);
+        width: calc(rem(25) / 2);
+      }
+    }
+
+    &.is-active {
+      span {
+        &:first-child {
+          top: unset;
+          transform: rotate(45deg);
+        }
+
+        &:nth-child(2) {
+          transform: rotate(-45deg);
+        }
+
+        &:last-child {
+          top: unset;
+          left: 50%;
+          transform: scaleX(0);
+        }
+      }
+    }
+  }
+</style>

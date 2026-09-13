@@ -1,0 +1,393 @@
+---
+import BaseIcon from '@components/shared/StaticIcon.astro';
+import Button from '@components/ui/Button.astro';
+import Heading from '@components/ui/Heading.astro';
+import { mergeHeadingStyled, type HeadingStyled } from "@utils/heading-styled.ts";
+
+type CardVariant = 'primary' | 'secondary' | 'tertiary' | 'enumeration';
+type TopLayout = 'counter' | 'icon-title' | 'icon' | 'title' | null;
+
+interface Props {
+  tag?: string;
+  layout: TopLayout;
+  variant: CardVariant;
+  className?: string;
+  icon?: {
+    name: string,
+    width: number,
+    height: number,
+  };
+  title?: string;
+  text: string;
+  isButton?: boolean;
+  isAuthor?: {
+    image: string,
+    name: string,
+    role: string,
+  };
+  styledEl?: {
+    counter?: HeadingStyled;
+    title?: HeadingStyled;
+    text?: HeadingStyled;
+    authorName?: HeadingStyled;
+    authorRole?: HeadingStyled;
+  };
+}
+
+const {
+  tag = 'div',
+  layout,
+  className,
+  icon,
+  title,
+  text,
+  variant = 'primary',
+  isButton = false,
+  isAuthor,
+  styledEl,
+} = Astro.props;
+
+const Tag = tag;
+
+const VARIANT_PRESETS: Record<CardVariant, {
+  TopDirection: 'col' | 'row' | null;
+  title: NonNullable<HeadingStyled>;
+  text: NonNullable<HeadingStyled>;
+}> = {
+  primary: {
+    TopDirection: 'col',
+    title: {
+      size: 'heading--5xl'
+    },
+    text: {
+      size: 'text--md',
+      fontWeight: 400,
+      color: 'var(--color-gray-90)',
+    }
+  },
+  secondary: {
+    TopDirection: 'row',
+    title: {
+      size: 'heading--2xl'
+    },
+    text: {
+      size: 'text--2xl',
+      fontWeight: 400,
+      color: 'var(--color-gray-90)',
+    }
+  },
+  tertiary: {
+    TopDirection: null,
+    title: {
+      size: 'heading--3xl',
+      color: 'var(--color-green-80)',
+    },
+    text: {
+      size: 'text--md',
+      fontWeight: 400,
+      letterSpacing: 'normal',
+      color: 'var(--color-gray-90)',
+    }
+  },
+  enumeration: {
+    TopDirection: null,
+    title: {
+      size: 'heading--5xl',
+      fontWeight: 500,
+      lineHeight: 'normal',
+      letterSpacing: 'normal',
+      color: 'var(--color-gray-60)',
+    },
+    text: {
+      size: 'text--md',
+      fontWeight: 400,
+      letterSpacing: 'normal',
+      textTransform: 'normal',
+      color: 'var(--color-gray-60)',
+    }
+  }
+};
+
+const preset = VARIANT_PRESETS[variant];
+
+const showCounter = layout === 'counter';
+const showIcon = (layout === 'icon-title' || layout === 'icon') && Boolean(icon);
+const showTitle = (layout === 'icon-title' || layout === 'title') && Boolean(title);
+
+const topCardCount = (showCounter ? 2 : 0) + Number(showIcon) + Number(showTitle);
+
+const hasCardWrapper = topCardCount > 1;
+const CardTopWrapper = hasCardWrapper ? 'div' : Fragment;
+---
+
+<Tag class:list={["card"]} data-card-variant={variant}>
+  <CardTopWrapper class:list={hasCardWrapper ? ["card-top", preset.TopDirection] : []}>
+    {showCounter && (
+       <>
+         <Heading
+            tag="span"
+            className="counter-num"
+            styled={mergeHeadingStyled(styledEl?.counter)}
+         />
+         
+         <Heading
+            tag='h3'
+            class={className}
+            styled={mergeHeadingStyled(preset.title, styledEl?.title)}
+         >
+           {title}
+         </Heading>
+       </>
+    )}
+    
+    {showIcon && (
+       <BaseIcon
+          className="card__wrapper"
+          icon={icon!}
+          variant="accent"
+       />
+    )}
+    
+    {showTitle && (
+       <Heading
+          tag="h3"
+          styled={mergeHeadingStyled(preset.title, styledEl?.title)}
+       >
+         {title}
+       </Heading>
+    )}
+  </CardTopWrapper>
+  
+  <Heading
+     tag="p"
+     styled={mergeHeadingStyled(preset.text, styledEl?.text)}
+  >
+    {text}
+  </Heading>
+  
+  {isButton || isAuthor ? (
+     <div class="card-bottom">
+       {isButton && (
+          <Button
+             className="w-full card__btn"
+             variant="default"
+             size="md"
+             hoverEffect
+          >
+            Learn More
+          </Button>
+       )}
+       
+       {isAuthor && (
+          <div class="card__author">
+            <div class="card__author-info">
+              <div class="card__author-img">
+                <img src={isAuthor.image} loading="lazy" alt="">
+              </div>
+              <div class="card__author-desc">
+                <Heading
+                   className="card__author-name"
+                   tag="h5"
+                   styled={mergeHeadingStyled({
+                     size: 'text--3xl',
+                     fontWeight: 500,
+                     letterSpacing: 'normal',
+                   }, styledEl?.authorName)}
+                >
+                  {isAuthor.name}
+                </Heading>
+                
+                <Heading
+                   className="card__author-role"
+                   tag="p"
+                   styled={mergeHeadingStyled({
+                     size: 'text--md',
+                     fontWeight: 400,
+                     letterSpacing: 'normal',
+                     color: 'var(--color-gray-90)',
+                   }, styledEl?.authorRole)}
+                >
+                  {isAuthor.role}
+                </Heading>
+              </div>
+            </div>
+            
+            <Button
+               className="card__author-btn"
+               variant="default"
+               size="md"
+               hoverEffect
+            >
+              Open Website
+            </Button>
+          </div>
+       )}
+     </div>
+  ) : null}
+</Tag>
+
+<style lang="scss">
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+
+  .card {
+    @include flex-custom(
+                    true,
+            $direction: column,
+            $gap: rem(24)
+    );
+    overflow: hidden;
+    border-bottom: var(--border);
+    @include tablet {
+      gap: rem(14);
+      border-right: var(--border);
+      border-bottom: none;
+    }
+    @include laptop {
+      gap: rem(20);
+    }
+
+    &:last-child {
+      border-right: none;
+      border-bottom: none;
+    }
+
+    &-top {
+      @include tablet {
+        &.col {
+          flex-direction: row;
+        }
+      }
+      @include flex-custom(
+        $alignItems: center,
+        $gap: rem(14),
+      );
+
+      &.row {
+        @include laptop {
+          gap: rem(20);
+          align-items: center;
+        }
+        flex-direction: row;
+      }
+
+      &.col {
+        @include tablet {
+          gap: rem(30);
+        }
+        @include laptop {
+          gap: rem(40);
+        }
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    &-bottom {
+      margin-top: auto;
+    }
+  }
+
+  /* authors */
+  .card__author {
+    @include flex-custom(
+            $jc: space-between,
+            $alignItems: center,
+            $gap: rem(10)
+    );
+    padding: rem(14);
+    overflow: hidden;
+    background-color: rgba(var(--color-dark-20-alpha), .2);
+    border: var(--border);
+    border-radius: rem(6);
+    @include laptop {
+      padding: rem(20);
+      border-radius: rem(8);
+    }
+
+    &-info {
+      @include flex-custom(
+              $alignItems: center,
+              $gap: rem(10),
+      );
+      @include tablet {
+        gap: rem(12);
+      }
+      @include laptop {
+        gap: rem(18);
+      }
+      overflow: hidden;
+    }
+
+    &-img {
+      @include square(40);
+      flex-shrink: 0;
+      border-radius: rem(4);
+      overflow: hidden;
+      @include tablet {
+        @include square(50);
+        border-radius: rem(6);
+      }
+      @include laptop {
+        @include square(60);
+        border-radius: rem(8);
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &-btn {
+      display: none;
+      flex-shrink: 0;
+      @include mobile {
+        display: inline-flex;
+      }
+    }
+  }
+
+  /* variants */
+  [data-card-variant='primary'] {
+    padding: rem(30);
+    @include tablet {
+      padding: rem(40);
+    }
+    @include laptop {
+      padding: rem(50);
+    }
+  }
+
+  [data-card-variant='secondary'] {
+    padding: rem(40) rem(30);
+    @include tablet {
+      padding: rem(60);
+    }
+    @include laptop {
+      padding: rem(80);
+    }
+  }
+
+  [data-card-variant='secondary'],
+  [data-card-variant='tertiary'],
+  [data-card-variant='enumeration'] {
+    border-bottom: var(--border);
+  }
+
+  [data-card-variant='tertiary'] {
+    padding: rem(40) rem(24);
+    @include tablet {
+      padding: rem(80) rem(60);
+    }
+    @include laptop {
+      padding: rem(100) rem(80);
+    }
+  }
+  
+  [data-card-variant='enumeration'] {
+  
+  }
+</style>

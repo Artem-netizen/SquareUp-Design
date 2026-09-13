@@ -1,0 +1,115 @@
+---
+interface HeadingProps {
+  tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  styled?: {
+    size: string;
+    fontWeight: number;
+    lineHeight: number | string;
+    letterSpacing: number;
+    textTransform: string;
+    color: string;
+  };
+  className?: string;
+}
+
+const {
+  tag,
+  className,
+  styled,
+  ...rest
+} = Astro.props as HeadingProps;
+
+const inlineStyles = styled ? Object.entries({
+  '--weight': styled.fontWeight,
+  '--line-height': styled.lineHeight,
+  '--spacing': styled.letterSpacing,
+  '--text-transform': styled.textTransform,
+  '--text-color': styled.color,
+})
+  .filter(([_, value]) => value !== undefined && value !== null)
+  .map(([key, value]) => `${key}: ${value};`)
+  .join(' ')
+: null;
+
+const Tag = tag;
+---
+
+<Tag
+   class:list={["default", className]}
+   data-heading-style={styled?.size || null}
+   style={inlineStyles}
+   {...rest}
+>
+  <slot />
+</Tag>
+
+<style lang="scss" is:global>
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+
+  $text-sizes: (
+    "display": (150, 80),
+    "title": (68, 34),
+    "title--xl": (58, 38),
+
+    "subtitle": (48, 28),
+    "subtitle--4xl": (40, 26),
+    "subtitle--3xl": (38, 26),
+    "subtitle--2xl": (38, 24),
+    "subtitle--xl": (38, 22),
+
+    "heading--5xl": (30, 20),
+    "heading--4xl": (28, 20),
+    "heading--3xl": (28, 18),
+    "heading--2xl": (26, 20),
+    "heading--2lg": (24, 18),
+    "heading--xl": (24, 16),
+
+    "text--4xl": (22, 16),
+    "text--3xl": (20, 16),
+    "text--2xl": (20, 14),
+    "text--lg": (18, 16),
+    "text--md": (18, 14),
+    "text--base": (16, 14),
+  );
+
+  /* цикл, создающий названия из $sizes */
+  /*@mixin generate-heading-styles {*/
+    @each $name, $size in $text-sizes {
+      [data-heading-style="#{$name}"] {
+
+        /*@if $media == 'tablet' {*/
+        /*  @include tablet {*/
+        /*    @include styled-text();*/
+        /*    !*@content;*!*/
+        /*  }*/
+        /*} @else if $media == 'laptop' {*/
+        /*  @include laptop {*/
+        /*    @include styled-text();*/
+        /*    !*@content;*!*/
+        /*  }*/
+        /*}*/
+
+        @include fluid-text(nth($size, 1), nth($size, 2));
+      }
+    }
+  /*}*/
+
+  
+  .default {
+    /*@include styled-text(*/
+      font-weight: var(--weight, 600);
+      line-height: var(--line-height, 1.5);
+      text-transform: var(--text-transform, capitalize);
+      letter-spacing: var(--spacing, -.6%);
+      color: var(--text-color, var(--color-light));
+    /*);*/
+  }
+
+  [data-heading-style="text--4xl"] {
+    @include tablet {
+      line-height: normal;
+    }
+  }
+</style>

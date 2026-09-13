@@ -1,0 +1,153 @@
+---
+import { Icon } from "astro-icon/components";
+import Heading from "@components/ui/Heading.astro";
+
+interface Props {
+  icon?: {
+    name: string,
+    width: number,
+    height: number,
+  };
+  variant?: 'default' | 'accent' | 'vibrant';
+  className?: string;
+  classChild?: string;
+  tag?: string;
+}
+
+const {
+  tag= 'div',
+  icon,
+  variant,
+  className,
+  classChild,
+  ...rest
+} = Astro.props;
+
+const Tag = tag;
+---
+
+<Tag
+   class:list={[className, 'stock-wrapper']}
+   data-icon-variant={variant}
+   {...rest}
+>
+  {icon ? (
+    <Icon
+       class:list={['icon', `${className}-icon`]}
+       name={icon?.name}
+       width={icon?.width}
+       height={icon?.height}
+       is:inline
+    />
+      ) : (
+    <Heading
+       tag={tag}
+       styled={{
+         size: 'heading--4xl',
+         letterSpacing: 'normal',
+       }}
+       class:list={[classChild]}
+    >
+      <slot />
+    </Heading>
+    )}
+</Tag>
+
+<style lang="scss">
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+
+  .stock-wrapper {
+    --border-width: #{rem(1.5)};
+    @include flex-center();
+    flex-shrink: 0;
+    @include square(52);
+    position: relative;
+    overflow: hidden;
+    border-radius: rem(6);
+    @include tablet {
+      border-radius: rem(8);
+    }
+    @include laptop {
+      @include square(64);
+      border-radius: rem(10);
+    }
+    &:not([data-icon-variant]) {
+      background: var(--gradient-dark);
+    }
+  }
+  
+  .icon {
+    @include square(20);
+    display: block;
+    font-size: 0;
+    @include tablet {
+      @include square(24);
+    }
+    & * {
+      fill: currentColor;
+      stroke: currentColor;
+    }
+  }
+
+  [data-icon-variant="default"] {
+    @include square(52);
+    background: var(--gradient-dark);
+    border-radius: rem(6);
+    @include tablet {
+      @include square(62);
+      border-radius: rem(8);
+    }
+    @include laptop {
+      @include square(80);
+      border-radius: rem(12);
+    }
+  }
+
+  [data-icon-variant="accent"] {
+    @include square(58);
+    background-image: var(--gradient-dark-with-green);
+    border-radius: rem(6);
+    @include tablet {
+      @include square(70);
+      border-radius: rem(8);
+    }
+    @include laptop {
+      @include square(88);
+      border-radius: rem(10);
+    }
+
+    .icon {
+      @include square(26);
+      @include tablet {
+        @include square(30);
+      }
+      @include laptop {
+        @include square(40);
+      }
+    }
+  }
+  
+  [data-icon-variant="vibrant"] {
+    @include square(50);
+    background-color: var(--color-green-50);
+    box-shadow: inset 0 0 rem(14) rem(6) rgba(255, 255, 255, .5);
+    @include tablet {
+      @include square(60);
+    }
+    @include laptop {
+      @include square(80);
+    }
+
+    .icon {
+      @include square(26);
+      @include tablet {
+        @include square(34);
+      }
+      @include laptop {
+        @include square(44);
+      }
+    }
+  }
+</style>

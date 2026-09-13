@@ -1,0 +1,81 @@
+---
+import GridList from "@components/shared/GridList.astro";
+import Section from "@components/ui/Section.astro";
+import Heading from "@components/ui/Heading.astro";
+import Description from "@components/ui/DescriptionPage.astro";
+import Card from "@components/ui/Card.astro";
+
+import dataServicePage from '@data/utils/sections/data.ourServicePage.json';
+---
+
+<Section bordersInline>
+  <div class="service__wrapper">
+    {dataServicePage.map(data => (
+      <Description
+        title={data.title}
+        text={data.description}
+        badge={data.badgeText}
+      />
+      
+      <>
+        {data.subsections.map((sub, idx) => (
+         <Heading
+            class:list={["service__subtitle"]}
+            tag="h4"
+            styled={{
+              size: 'heading--4xl',
+              fontWeight: 500,
+              lineHeight: 'normal',
+              letterSpacing: 'normal',
+              color: 'var(--color-gray-60)',
+            }}
+         >
+           {sub.subtitle}
+         </Heading>
+         
+        <GridList
+           key={`list-id-${idx}`}
+           tag="ul"
+           minSize={178}
+           columns={4}
+        >
+           {sub.cards.map(card => (
+            <Card
+              tag="li"
+              layout="icon"
+              variant="primary"
+              icon={{
+                name: card.icon,
+                width: 40,
+                height: 40,
+              }}
+              text={card.text}
+            />
+           ))}
+        </GridList>
+        ))}
+      </>
+    ))}
+  </div>
+</Section>
+
+<style lang="scss">
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+  
+  .service {
+    &__subtitle {
+      padding: rem(38);
+      border-block: var(--border);
+      text-align: center;
+      @include tablet {
+        padding: rem(40);
+        text-align: left;
+      }
+      @include laptop {
+        padding: rem(50);
+      }
+    }
+  }
+</style>

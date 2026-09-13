@@ -1,0 +1,277 @@
+---
+import { Icon } from 'astro-icon/components';
+import Heading from '@components/ui/Heading.astro';
+import Button from '@components/ui/Button.astro';
+
+const {
+  id = 'view-modal',
+  site,
+} = Astro.props;
+---
+
+<div
+   class:list={["modal"]}
+   role="dialog"
+   aria-labelledby="label"
+   aria-describedby="describedby"
+   aria-modal="true"
+   aria-expanded="false"
+   data-modal-main
+>
+  <div class="modal__wrapper" data-modal-target={id}>
+    <button
+       class="modal__close"
+       type="button"
+       aria-label="Close modal window"
+       data-modal-close
+    >
+      <Icon
+         name="plus"
+         width={34}
+         height={34}
+      />
+    </button>
+    
+    <div class="modal__content">
+      <Heading
+         tag="h5"
+         id="label"
+         styled={{
+           size: 'heading--2xl',
+           lineHeight: 'normal',
+           textTransform: 'normal',
+         }}
+      >
+        Oops, website is not available!
+      </Heading>
+      <Heading
+         tag="p"
+         id="describedby"
+         styled={{
+           size: 'text--lg',
+           textTransform: 'normal',
+           color: 'var(--color-gray-60)',
+         }}
+      >
+        It looks like the link leads to a new page <span>(`${site}`)</span> that is currently being prepared for launch.
+        We’re busy putting the finishing touches on it, so bookmark this page and check back later—everything will be
+        ready!
+      </Heading>
+      <Button
+         className="w-full"
+         data-modal-close
+         variant="accent"
+         size="md"
+         hoverEffect
+      >
+        Ah, okay!
+      </Button>
+    </div>
+  </div>
+</div>
+
+<style lang="scss" is:global>
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+  
+  :root {
+    view-transition-name: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @view-transition {
+      navigation: auto;
+    }
+    ::view-transition(modal-morphing) {
+      animation-duration: calc(var(--transition-duration) + .2s);
+      animation-timing-function: ease-in-out;
+    }
+    
+    ::view-transition-old(modal-animated),
+    ::view-transition-new(modal-animated) {
+      height: 100%;
+      min-height: 100%;
+      overflow: clip;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        filter: blur(rem(42));
+      }
+    }
+    
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        filter: blur(0);
+      }
+    }
+  
+    ::view-transition-old(modal-animated) {
+      animation: fadeOut var(--transition-duration) both cubic-bezier(.38, .49, 0, 1);
+    }
+    
+    ::view-transition-new(modal-animated) {
+      animation: fadeIn var(--transition-duration) both cubic-bezier(.38, .49, 0, 1);
+    }
+  }
+  
+  
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-index-5);
+    padding-inline: calc(var(--container-padding-x) / 2);
+    background-color: rgba(var(--color-dark-20-alpha), .7);
+    backdrop-filter: blur(rem(6));
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    &.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+    
+    &__wrapper {
+      @include abs-center;
+      @include flex-custom(
+        $direction: column,
+        $alignItems: start,
+        $gap: rem(25)
+      );
+      padding: rem(24);
+      width: min(rem(500), 90%);
+      border-radius: rem(12);
+      background-color: var(--color-dark-11);
+      @include tablet {
+        padding: rem(40);
+      }
+      @include laptop {
+        padding: rem(50);
+        border-radius: rem(16);
+      }
+    }
+    
+    &__close {
+      @include flex-center();
+      @include square(50);
+      margin-inline: auto;
+      border-radius: rem(6);
+      background-color: var(--color-gray-20);
+      & > * {
+        @include square(30);
+        transform: rotate(45deg);
+        font-size: 0;
+      }
+    }
+    
+    &__content {
+      @include flex-custom(
+        $direction: column,
+        $alignItems: start,
+        $gap: rem(30),
+      );
+    }
+  }
+</style>
+
+<script>
+  const modal = document.querySelector('[data-modal-main]') as HTMLElement;
+  const btnOpen = document.querySelectorAll('[data-modal-trigger]');
+  const btnClose = document.querySelectorAll('[data-modal-close]');
+  
+  const initModalWindow = async (target: string | undefined, triggerButton: HTMLElement) => {
+    const currentModal = document.querySelector(`[data-modal-target="${target}"]`) as HTMLElement;
+    
+    if(!currentModal || !modal) return;
+    
+    (currentModal as any)._triggerButton = triggerButton;
+    currentModal.dataset.originTrigger = triggerButton.dataset.modalTrigger;
+    
+    triggerButton.style.viewTransitionName = 'modal-animated';
+    currentModal.style.viewTransitionName = '';
+    
+    const viewTransition = document.startViewTransition(() => {
+      triggerButton.style.viewTransitionName = '';
+      currentModal.style.viewTransitionName = 'modal-animated';
+      
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-expanded', 'true');
+      modal.removeAttribute('hidden');
+      document.body.classList.add('no-scroll');
+    });
+
+    try {
+      await viewTransition.finished;
+    } catch (error) {
+      console.warn(error);
+    }
+    
+    currentModal.style.viewTransitionName = '';
+  }
+  
+  const closeModalWindow = async () => {
+    const activeModal = document.querySelector('[data-origin-trigger]') as HTMLElement;
+    const triggerBtn = (activeModal as any)._triggerButton as HTMLElement | undefined;
+    
+    if (!triggerBtn || !activeModal) return;
+    
+    activeModal.style.viewTransitionName = 'modal-animated';
+    triggerBtn.style.viewTransitionName = '';
+    
+    const viewTransition = document.startViewTransition(() => {
+      activeModal.style.viewTransitionName = '';
+      triggerBtn.style.viewTransitionName = 'modal-animated';
+
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-expanded', 'false');
+      modal.setAttribute('hidden', '');
+      document.body.classList.remove('no-scroll');
+    });
+    
+    try {
+      await viewTransition.finished;
+    } catch (error) {
+      console.warn(error);
+    }
+    
+    activeModal.style.viewTransitionName = '';
+    activeModal.removeAttribute('data-origin-trigger');
+    triggerBtn.style.viewTransitionName = '';
+  }
+  
+  btnOpen.forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      initModalWindow((btn as HTMLElement).dataset.modalTrigger, btn as HTMLElement);
+    })
+  });
+  
+  btnClose.forEach(btn => {
+    btn.addEventListener('click', closeModalWindow);
+  });
+  
+  modal.addEventListener('click', e => {
+    if (e.target === modal) {
+      closeModalWindow();
+    }
+  });
+  
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeModalWindow();
+    }
+  });
+</script>

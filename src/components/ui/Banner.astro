@@ -1,0 +1,170 @@
+---
+import BasicIcon from "@components/shared/StaticIcon.astro";
+import Section from '@components/ui/Section.astro';
+import Heading from '@components/ui/Heading.astro';
+import Button from "@components/ui/Button.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  variant?: 'default' | 'secondary';
+  icon?: {
+    name: string;
+    width?: number;
+    height?: number;
+  }
+  isButton?: boolean;
+  currentImage?: string;
+}
+
+const {
+  title,
+  description,
+  icon,
+  isButton,
+  variant = 'default',
+  currentImage,
+} = Astro.props;
+---
+
+<Section className="banner" bordersInline>
+  <div
+     class="banner__wrapper"
+     data-banner-variant={variant}
+     style=`background-image: url(/assets/images/banner/${currentImage}.webp)`
+  >
+    {icon && (
+       <BasicIcon
+          variant="vibrant"
+          icon={{
+            name: icon?.name ?? 'cube',
+            width: icon?.width ?? 40,
+            height: icon?.height ?? 40,
+          }}
+       />
+    )}
+    
+    <div class="banner__content">
+      <Heading
+         tag="h2"
+         styled={{
+           size: variant === 'secondary' ? "subtitle--2xl" : 'subtitle',
+           lineHeight: 'normal',
+           letterSpacing: 'normal',
+         }}
+      >
+        {title}
+      </Heading>
+      
+      <Heading
+         tag="p"
+         styled={{
+           size: 'text--md',
+           fontWeight: 400,
+           lineHeight: 1.33,
+           textTransform: 'normal',
+           color: 'var(--color-gray-90)'
+         }}
+         className="banner__text"
+      >
+        {description}
+      </Heading>
+    </div>
+    
+    {isButton && (
+       <Button
+          variant="accent"
+          size="lg"
+          hoverEffect
+       >
+         Start Project
+       </Button>
+    )}
+  </div>
+</Section>
+
+<style lang="scss" is:global>
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+
+  .banner {
+    &__wrapper {
+      padding-block: rem(50);
+      padding-inline: calc(var(--container-padding-x) / 2);
+      position: relative;
+      z-index: var(--z-index-1);
+      text-align: center;
+      border-bottom: var(--border);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      @include tablet {
+        padding-block: rem(100);
+      }
+      @include laptop {
+        padding-block: rem(120);
+      }
+      @include flex-center(
+        $direction: column,
+        $gap: rem(6),
+      );
+      &::after,
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: var(--z-index-behind);
+        pointer-events: none;
+      }
+
+      &::after {
+        background-image: url('/assets/images/hero/bg-noise.webp');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
+
+      &::before {
+        background-color: rgba(var(--color-dark-full), .8);
+      }
+    }
+
+    &__content {
+      @include flex-center(
+        $direction: column,
+      );
+      position: relative;
+      width: min(rem(996), 100%);
+    }
+  }
+  
+  [data-banner-variant='default'] {
+    .banner__content {
+      gap: rem(6);
+      @include tablet {
+        gap: rem(10);
+      }
+    }
+  }
+
+  [data-banner-variant='secondary'] {
+    gap: rem(28);
+    @include tablet {
+      gap: rem(40);
+    }
+    @include laptop {
+      gap: rem(50);
+    }
+    
+    .banner__content {
+      gap: rem(6);
+      @include tablet {
+        gap: rem(10);
+      }
+      @include laptop {
+        gap: rem(14);
+      }
+    }
+  }
+</style>

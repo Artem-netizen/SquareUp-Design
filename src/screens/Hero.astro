@@ -1,0 +1,224 @@
+---
+import Section from "@components/ui/Section.astro";
+import Heading from '@components/ui/Heading.astro';
+import Link from '@components/ui/Button.astro';
+---
+
+<Section
+   className="hero"
+   stylesContainer
+>
+  <div class="hero__wrapper">
+    <div class="hero__img">
+      <picture>
+        <img src="/assets/images/hero/graphic.png" alt="Graphic">
+      </picture>
+    </div>
+    
+    <Heading
+       className="hero__title"
+       tag="h1"
+       styled={{
+         size: "title"
+       }}
+    >
+      A Digital Product Studio <span>that will Work</span>
+    </Heading>
+    
+    <div class="user-segments">
+      <Heading
+         tag="p"
+         styled={{
+           size: "text--4xl",
+           fontWeight: 400,
+           lineHeight: 1.5,
+           letterSpacing: 'normal',
+           textTransform: 'normal',
+           color: 'var(--color-gray-60)',
+         }}
+         className="user-segments__text"
+      >
+        For
+        <mark class="user-segments__mark">Startups</mark>,
+        <mark class="user-segments__mark">Enterprise leaders</mark>,
+        <mark class="user-segments__mark">Media Publishers</mark>
+        and
+        <mark class="user-segments__mark">Social Good</mark>
+      </Heading>
+    </div>
+    
+    <div class="hero-actions">
+      <Link
+         size="lg"
+         variant="default"
+         aria-label="Our Works"
+         hoverEffect
+      >
+        Our Works
+      </Link>
+      <Link
+         size="lg"
+         variant="accent"
+         aria-label="Contact Us"
+         hoverEffect
+      >
+        Contact Us
+      </Link>
+    </div>
+  </div>
+  
+  <Heading
+     tag="span"
+     className="hero__trusted"
+     styled={{
+       size: 'text--md',
+       fontWeight: 500,
+       lineHeight: 'normal',
+       color: 'var(--color-green-99)'
+     }}
+     aria-hidden="true"
+  >
+    Trusted By 250+ Companies
+  </Heading>
+</Section>
+
+<style lang="scss">
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+  
+  .hero {
+    position: relative;
+    border-bottom: var(--border);
+    @include tablet {
+      border-bottom: none;
+    }
+    
+    &__wrapper {
+      padding-top: clamp(5rem, 4.353rem + 2.66vw, 7rem);
+      padding-bottom: clamp(12.813rem, 11.397rem + 5.81vw, 17.188rem);
+      padding-inline: calc(var(--container-padding-x) / 2);
+      position: relative;
+      height: 100%;
+      text-align: center;
+      border-bottom: none;
+      @include tablet {
+        border-bottom: var(--border);
+        &::before {
+          inset: 0;
+        }
+      }
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: var(--z-index-behind);
+        background-image: url('/assets/images/hero/bg-noise.webp');
+        background-repeat: no-repeat;
+        background-size: inherit;
+        background-position: center;
+      }
+    }
+    
+    &__img {
+      position: absolute;
+      bottom: 0;
+      z-index: calc(var(--z-index-behind) + -1);
+      user-select: none;
+      pointer-events: none;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    
+    &__title {
+      margin-bottom: rem(30);
+      @include laptop {
+        margin-bottom: rem(40);
+      }
+      
+      & > span {
+        display: block;
+        text-transform: initial;
+      }
+    }
+    
+    &-actions {
+      @include flex-center(
+        $gap: rem(13)
+      );
+    }
+    
+    &__trusted {
+      @include abs-x;
+      bottom: calc(-1 * var(--trusted-height) / 2);
+      z-index: var(--z-index-1);
+      padding: rem(13) rem(23);
+      display: block;
+      width: max-content;
+      --dynamic-color: var(--color-dark-15);
+      border: var(--border);
+      background-color: var(--color-dark-11);
+      border-radius: rem(100);
+      @include laptop {
+        padding: rem(19) rem(33);
+      }
+    }
+  }
+  
+  .user-segments {
+    margin-bottom: rem(40);
+    padding: rem(18) rem(20);
+    display: inline-block;
+    background-color: rgba(var(--color-dark-20-alpha), .2);
+    border: rem(1) solid var(--color-dark-15);
+    backdrop-filter: blur(rem(12));
+    overflow: hidden;
+    border-radius: rem(8);
+    @include tablet {
+      padding-inline: rem(30);
+    }
+    @include laptop {
+      margin-bottom: rem(50);
+      padding: rem(24) rem(40);
+      border-radius: rem(12);
+    }
+    
+    &__text {
+      @include flex-center(
+        $wrap: wrap,
+      );
+    }
+    
+    &__mark {
+      @include flex-center();
+      margin-inline: rem(6);
+      overflow: hidden;
+      background: none;
+      color: inherit;
+      @include tablet {
+        padding: rem(8) rem(10);
+        background-color: var(--color-dark-15);
+        color: var(--color-light);
+        border-radius: rem(6);
+      }
+
+      @include laptop {
+        padding: rem(12) rem(14);
+        border-radius: rem(8);
+      }
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const trust = document.querySelector('.hero__trusted') as HTMLElement | null;
+    
+    if (trust) {
+      const heightEl = trust.offsetHeight;
+      document.documentElement.style.setProperty('--trusted-height', `${heightEl}px`);
+    }
+  });
+</script>

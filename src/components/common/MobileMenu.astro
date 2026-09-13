@@ -1,0 +1,189 @@
+---
+import { navLinks } from "@data/utils/data.navLinks";
+import Heading from "@components/ui/Heading.astro";
+import BaseIcon from "@components/shared/StaticIcon.astro";
+---
+
+<div class="menu">
+  <div class="menu__wrapper container">
+    <ul class="menu__list">
+      {navLinks.map((link, i) => (
+        <li class="menu__item">
+          <a class="menu__link default" href={link.path}>
+            <span>
+              {link.name}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="social-networks">
+      <Heading
+        tag="span"
+        styled={{
+          size: 'text--lg',
+          fontWeight: 500,
+          letterSpacing: 'normal',
+        }}
+      >
+        Stay Connected
+       </Heading>
+      <ul class="social-networks__list">
+        <li class="social-networks__item">
+          <BaseIcon
+             tag="a"
+             className="social-networks__link"
+             icon={{
+               name: 'social/facebook',
+               width: 24,
+               height: 24,
+             }}
+             href="/"
+             aria-label="Go to Facebook"
+          />
+        </li>
+        <li class="social-networks__item">
+          <BaseIcon
+             tag="a"
+             className="social-networks__link"
+             icon={{
+               name: 'social/twitter',
+               width: 24,
+               height: 24,
+             }}
+             href="/"
+             aria-label="Go to Twitter"
+          />
+        </li>
+        <li class="social-networks__item">
+          <BaseIcon
+             tag="a"
+             className="social-networks__link"
+             icon={{
+               name: 'social/linkdn',
+               width: 24,
+               height: 24,
+             }}
+             href="/"
+             aria-label="Go to Linkedin"
+          />
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+  
+  .menu {
+    $m: &;
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-index-4);
+    background-color: var(--color-dark-11);
+    backdrop-filter: blur(rem(12));
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-duration) .15s var(--ease-util);
+    &__wrapper {
+      @include flex-custom(
+        $direction: column,
+        $alignItems: start,
+        $jc: center,
+        $gap: rem(50),
+      );
+      padding-top: calc(var(--offset-top) + rem(20));
+      height: 100%;
+    }
+    
+    &__list {
+      overflow-y: auto;
+      width: 100%;
+      &::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+    }
+    
+    &__item {
+      margin-bottom: rem(20);
+      overflow: hidden;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    
+    &__link {
+      display: inline-block;
+      font-size: rem(32);
+      font-weight: 500;
+      & > span {
+        display: inline-block;
+      }
+    }
+  }
+  
+  @keyframes revealLinks {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  .is-active {
+      opacity: 1;
+      visibility: visible;
+      transition: all var(--transition-duration) var(--ease-util);
+
+     .menu__link span {
+       animation: revealLinks var(--transition-duration) .1s both;
+     }
+   }
+</style>
+
+<script>
+  const menuSetup = () => {
+    const menu = document.querySelector('.menu') as HTMLElement;
+    const menuBtn = document.querySelector('.header__menu-btn') as HTMLElement;
+    const menuLinks = document.querySelectorAll('.menu__link');
+    
+    if (!menuBtn) return;
+    
+    const initToggleMenu = (e: Event) => {
+      e.preventDefault();
+      
+      const isActive = menuBtn.classList.contains('is-active');
+      
+      if (isActive) {
+        menu.classList.remove('is-active');
+        menuBtn.classList.remove('is-active');
+        document.body.classList.remove('no-scroll');
+      } else {
+        menu.classList.add('is-active');
+        menuBtn.classList.add('is-active');
+        document.body.classList.add('no-scroll');
+      }
+    }
+    
+    const initCloseMenu = () => {
+      menu.classList.remove('is-active');
+      menuBtn.classList.remove('is-active');
+      document.body.classList.remove('no-scroll');
+    }
+    
+    menuBtn.addEventListener('click', initToggleMenu);
+    
+    
+    menuLinks.forEach(link => {
+      link.addEventListener("click", initCloseMenu);
+    });
+  }
+    
+  document.addEventListener('astro:page-load', menuSetup);
+</script>

@@ -1,0 +1,8 @@
+User-agent: Googlebot
+Disallow: /private/
+
+User-agent: *
+Disallow: /admin/
+Allow: /
+
+Sitemap:

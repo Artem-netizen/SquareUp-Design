@@ -1,0 +1,59 @@
+@use 'helpers' as *;
+
+:root {
+  --color-light: #ffffff;
+
+  //dark colors
+  --color-dark: #000000;
+  --color-dark-full: 0, 0, 0;
+  --color-dark-10: #191919;
+  --color-dark-11: #1A1A1A;
+  --color-dark-15: #262626;
+  --color-dark-20: #242424;
+  --color-dark-20-alpha: 36, 36, 36;
+  --gradient-dark: linear-gradient(180deg, var(--color-dark-20) 0%, rgba(var(--color-dark-20-alpha), 0) 100%);
+  --gradient-dark-with-green: linear-gradient(229.29deg, rgba(158, 255, 0, 0.2) -68.25%, rgba(158, 255, 0, 0) 32.16%), linear-gradient(180deg, var(--color-dark-20) 0%, rgba(var(--color-dark-20-alpha), 0) 100%);
+
+  //gray colors
+  --color-gray-20: #333333;
+  --color-gray-30: #4C4C4D;
+  --color-gray-35: #59595A;
+  --color-gray-40: #656567;
+  --color-gray-60: #98989A;
+  --color-gray-90: #E6E6E6;
+
+  //accents colors
+  --color-green-50: #9EFF00;
+  --color-green-60: #B1FF33;
+  --color-green-70: #C5FF66;
+  --color-green-80: #D8FF99;
+  --color-green-90: #ECFFCC;
+  --color-green-95: #F5FFE5;
+  --color-green-97: #F9FFF0;
+  --color-green-99: #FDFFFA;
+
+  --border: #{rem(1)} solid var(--dynamic-color, var(--color-dark-15));
+
+  //font
+  --font-base: 'Barlow', sans-serif;
+
+  //sizes
+  --container-width: #{rem(1595)};
+  --container-padding-x: #{rem(32)};
+  --container-calc-width: min(100% - var(--container-padding-x), var(--container-width));
+  --100vw: calc(100vw - var(--scrollbar-width));
+
+  //easing
+  --transition-duration: .25s;
+  --ease-quint: cubic-bezier(0.86, 0, 0.14, 1);
+  --ease-util: cubic-bezier(.32, .72, 0, 1);
+
+  //z-index layers
+  --z-index-behind: -1;
+  --z-index-1: 1;
+  --z-index-2: 2;
+  --z-index-3: 3;
+  --z-index-4: 4;
+  --z-index-5: 5;
+  --z-index-6: 6;
+}

@@ -1,0 +1,44 @@
+---
+const {
+  tag = 'div',
+  columns = 3,
+  minSize,
+  gridGap,
+  className,
+  ...rest
+} = Astro.props;
+
+const Tag = tag;
+---
+
+<Tag
+   class:list={["grid", className]}
+   role="list"
+   style={`
+    --count: ${columns};
+    ${minSize ? `--min_size: ${minSize / 16}rem;` : ''}
+    ${gridGap ? `--grid_gap: ${gridGap / 16}rem;` : ''}
+   `}
+   {...rest}
+>
+  <slot />
+</Tag>
+
+<style lang="scss" define:vars={{
+  count: columns,
+  min_size: minSize,
+  grid_gap: gridGap,
+}}>
+  @import "@styles/helpers/functions.scss";
+
+  .grid {
+    --grid-max-col: var(--count);
+    --grid-min-size: var(--min_size, #{rem(358)});
+    --gap: var(--grid_gap, #{rem(5)});
+    --grid-col-calc-size: calc((100% - var(--gap) * var(--grid-max-col)) / var(--grid-max-col));
+    --grid-col-min-size-calc: min(100%, max(var(--grid-min-size), var(--grid-col-calc-size)));
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--grid-col-min-size-calc), 1fr));
+  }
+</style>

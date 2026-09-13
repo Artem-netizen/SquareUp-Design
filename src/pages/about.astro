@@ -1,0 +1,47 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import BasicIcon from "@components/shared/StaticIcon.astro";
+import Section from "@components/ui/Section.astro";
+import Heading from "@components/ui/Heading.astro";
+import Banner from "@components/ui/Banner.astro";
+import GridList from "@components/shared/GridList.astro";
+import Card from "@components/ui/Card.astro";
+---
+
+<PageLayout title="About Us">
+  <Banner
+     variant="default"
+     title="About Us"
+     description="Welcome to SquareUp, where collaboration, expertise, and client-centricity intersect to shape the future of digital innovation."
+     currentImage="abstract-2"
+  />
+  
+  <Section className="about" bordersInline>
+    <div class="about__wrapper">
+      <div class="about__info">
+        <Heading
+          tag="h3"
+          styled={{
+            size: 'subtitle',
+            lineHeight: 'normal',
+            letterSpacing: 'normal',
+          }}
+        >
+          About SquareUp
+          </Heading>
+        <Heading
+          tag="p"
+          styled={{
+            size: 'text--2xl',
+            fontWeight: 400,
+            color: 'var(--color-gray-90)',
+          }}
+        >
+          SquareUp is a digital product agency that is passionate about crafting exceptional digital experiences. We specialize in design, engineering, and project management, helping businesses thrive in the digital landscape. At SquareUp, we follow a structured and collaborative process to ensure the successful delivery of exceptional digital products. Our process combines industry best practices, creative thinking, and a client-centric approach.
+        </Heading>
+      </div>
+      <div class="about__logo"></div>
+    </div>
+  </Section>
+
+</PageLayout>

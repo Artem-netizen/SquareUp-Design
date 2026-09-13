@@ -1,0 +1,158 @@
+@use 'sass:math';
+@use 'sass:meta';
+@use 'functions' as *;
+
+@mixin styled($args...) {
+  $keywords: meta.keywords($args);
+
+  @each $name, $value in $keywords {
+    #{$name}: $value;
+  }
+}
+
+@mixin fluid-text($max: 48, $min: 16) {
+  font-size: fluid($max, $min);
+}
+
+@mixin fluid-line-height($max: 2.4, $min: 1.5) {
+  line-height: fluid($max, $min);
+}
+
+@mixin styled-button(
+  $blur: false,
+  $border: false,
+  $bg: null,
+  $color: null,
+) {
+  @if $blur == true or $border == true {
+    backdrop-filter: blur(rem(12));
+    background-color: rgba(var(--color-dark-20-alpha), .2);
+  }
+  background-color: $bg;
+  color: $color;
+}
+
+@mixin hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@mixin show {
+  opacity: 1;
+  visibility: visible;
+}
+
+@mixin flex-custom(
+  $isInline: false,
+  $alignItems: null,
+  $jc: null,
+  $direction: null,
+  $wrap: null,
+  $gap: null,
+  $col-gap: null,
+  $row-gap: null,
+) {
+  @if $isInline {
+    display: inline-flex;
+  }
+
+  @else {
+    display: flex;
+  }
+
+  flex-direction: $direction;
+  flex-wrap: $wrap;
+  justify-content: $jc;
+  align-items: $alignItems;
+  gap: $gap;
+  row-gap: $row-gap;
+  column-gap: $col-gap;
+}
+
+@mixin flex-center(
+  $isInline: false,
+  $direction: null,
+  $wrap: null,
+  $gap: null,
+) {
+  @if $isInline {
+    display: inline-flex;
+  }
+
+  @else {
+    display: flex;
+  }
+
+  justify-content: center;
+  align-items: center;
+  flex-wrap: $wrap;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
+@mixin borderInline($isInline: false) {
+  @if $isInline == true {
+    padding-inline: calc(var(--container-padding-x) / 2);
+  }
+  border-inline: rem(1) solid var(--color-dark-15);
+}
+
+@mixin abs-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+
+@mixin abs-x {
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+}
+
+@mixin abs-y {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+}
+
+@mixin square($size) {
+  width: rem($size);
+  height: rem($size);
+}
+
+@mixin text-overflow {
+  max-width: max-content;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+
+@mixin hover($hasActiveEffectOnMobile: true) {
+  @media (any-hover: hover) {
+    &:is(:hover, :focus-visible) {
+      @content;
+    }
+  }
+
+  @if ($hasActiveEffectOnMobile) {
+    @media (any-hover: none) {
+      &:active {
+        @content;
+      }
+    }
+  }
+}

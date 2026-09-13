@@ -1,0 +1,60 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import Heading from '@components/ui/Heading.astro';
+
+interface InputProps extends HTMLAttributes<"input"> {
+  className?: string;
+  label?: string;
+  labelClassName?: string;
+  type: string;
+  inputName?: string;
+  placeholder?: string;
+}
+
+const {
+  className,
+  label,
+  labelClassName,
+  type,
+  inputName,
+  placeholder= 'Type here',
+  ...rest
+} = Astro.props;
+
+const inputsId = Math.random().toFixed(2);
+---
+
+<input
+   class:list={['input', className]}
+   type={
+     type === 'checkbox'
+     ? 'checkbox'
+     : type === 'range'
+       ? 'range'
+       : type
+   }
+   name={inputName}
+   inputmode={type}
+   placeholder={placeholder}
+   required
+   {...rest}
+/>
+
+<style lang="scss">
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+  
+  .input {
+    --dynamic-color: var(--color-gray-20);
+    @include fluid-text(18, 16);
+    appearance: none;
+    display: inline-block;
+    padding-bottom: rem(5);
+    width: 100%;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-gray-40);
+    border-bottom: var(--border);
+  }
+</style>

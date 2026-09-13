@@ -1,0 +1,28 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import Banner from "@components/ui/Banner.astro";
+import Service from "@screens/Service.astro";
+---
+
+<PageLayout title="Our Services">
+  <Banner
+    title="Our Services"
+    description="Transform your brand with our innovative digital solutions that captivate and engage your audience."
+    currentImage="abstract-1"
+  />
+  
+  <Service />
+  
+  <Banner
+     variant="secondary"
+     icon={{
+       name: 'cube',
+       width: 42,
+       height: 48,
+     }}
+     title="Let us Bring your Ideas to Life in the Digital World."
+     description="No matter which services you choose, we are committed to delivering exceptional results that exceed your expectations. Our multidisciplinary team works closely together to ensure seamless collaboration and a unified vision for your digital product."
+     currentImage="abstract-5"
+     isButton
+  />
+</PageLayout>

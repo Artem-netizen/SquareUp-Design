@@ -1,0 +1,32 @@
+[
+  {
+    "srcBase": "/assets/images/marquee/zapier.png",
+    "srcMod": "/assets/images/marquee/zapier.webp",
+    "alt": "logo zapier"
+  },
+  {
+    "srcBase": "/assets/images/marquee/spotify.png",
+    "srcMod": "/assets/images/marquee/spotify.webp",
+    "alt": "logo spotify"
+  },
+  {
+    "srcBase": "/assets/images/marquee/zoom.png",
+    "srcMod": "/assets/images/marquee/zoom.webp",
+    "alt": "logo zoom"
+  },
+  {
+    "srcBase": "/assets/images/marquee/slack.png",
+    "srcMod": "/assets/images/marquee/slack.webp",
+    "alt": "logo slack"
+  },
+  {
+    "srcBase": "/assets/images/marquee/amazon.png",
+    "srcMod": "/assets/images/marquee/amazon.webp",
+    "alt": "logo amazon"
+  },
+  {
+    "srcBase": "/assets/images/marquee/adobe.png",
+    "srcMod": "/assets/images/marquee/adobe.webp",
+    "alt": "logo adobe"
+  }
+]

@@ -1,0 +1,310 @@
+---
+import { Icon }from 'astro-icon/components';
+import PageLayout from "@layouts/PageLayout.astro";
+import Banner from "@components/ui/Banner.astro";
+import Section from "@components/ui/Section.astro";
+import GridList from "@components/shared/GridList.astro";
+import Heading from "@components/ui/Heading.astro";
+import Description from "@components/ui/DescriptionPage.astro";
+import Modal from "@components/ui/Modal.astro";
+
+import dataProjects from '@data/utils/sections/data.works.json';
+---
+
+<PageLayout title="Our Works">
+  <Banner
+    variant="default"
+    title="Our Works"
+    description="Discover a portfolio of visually stunning and strategically crafted digital projects that showcase our creativity and expertise."
+    currentImage="abstract-1"
+  />
+  
+  <Section className="works" bordersInline>
+    <Description
+      text="We have had the privilege of working with a diverse range of clients and delivering exceptional digital products that drive success."
+      badge="Here are ten examples of our notable works:"
+    />
+    
+    <GridList
+       tag="ul"
+       columns={2}
+    >
+      {dataProjects.map((project, idx) => (
+        <li class="work__item project">
+          <article class="work__card project__card">
+            <Heading
+              tag="h4"
+              class="project__subtitle"
+              styled={{
+                size: 'heading--2xl',
+                fontWeight: 500,
+                letterSpacing: 'normal',
+                lineHeight: 'normal',
+                color: 'var(--color-gray-60)'
+              }}
+            >
+              {project.subtitle}
+            </Heading>
+            <div class="project__content">
+              <div class="project__img">
+                <picture>
+                  <source srcset={project.images.webpImg} type="image/webp" />
+                  <img
+                     src={project.images.baseImg}
+                     alt={project.title}
+                     loading="lazy"
+                     onerror="this.src='/assets/images/image-not-found.png'"
+                  />
+                </picture>
+              </div>
+              <div class="project__info">
+                <div class="project__desc w-full">
+                  <div class="project__desc-inner">
+                    <Heading
+                       tag="h5"
+                       styled={{
+                         size: 'heading--2lg',
+                         fontWeight: 500,
+                         color: 'var(--color-gray-90)'
+                       }}
+                    >
+                      {project.title}
+                    </Heading>
+                    <Heading
+                       tag="a"
+                       class="project__link desc__badge"
+                       href={project.link}
+                       aria-label=`Open link project - ${project.title}`
+                       styled={{
+                         size: 'text--2xl',
+                         fontWeight: 400,
+                         textTransform: 'normal',
+                         color: 'var(--color-gray-60)'
+                       }}
+                       data-modal-trigger='view-modal'
+                    >
+                      {project.link}
+                    </Heading>
+                  </div>
+                  
+                  <Heading
+                     tag="a"
+                     class="project__btn"
+                     href={project.link}
+                     data-modal-trigger='view-modal'
+                     aria-label=`Go to project ${project.title}`
+                  >
+                    <Icon
+                       class="project__btn-icon"
+                       name="arrow-up"
+                       width={17}
+                       height={17}
+                    />
+                  </Heading>
+                </div>
+                <Heading
+                  tag="p"
+                  styled={{
+                    size: 'text--md',
+                    fontWeight: 400,
+                    letterSpacing: 'normal',
+                    textTransform: 'normal',
+                    color: 'var(--color-gray-60)'
+                  }}
+                >
+                  {project.text}
+                </Heading>
+              </div>
+            </div>
+          </article>
+        </li>
+      ))}
+    </GridList>
+  </Section>
+  
+  <Banner
+     variant="secondary"
+     icon={{
+       name: 'cube',
+     }}
+     title="Let us Bring your Ideas to Life in the Digital World."
+     description="No matter which services you choose, we are committed to delivering exceptional results that exceed your expectations. Our multidisciplinary team works closely together to ensure seamless collaboration and a unified vision for your digital product."
+     currentImage="abstract-5"
+     isButton
+  />
+  
+  <Modal />
+</PageLayout>
+
+<style lang="scss">
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+  
+  .project {
+    $card: &;
+    border-bottom: var(--border);
+    @include mobile {
+      border-right: var(--border);
+    }
+    @include hover() {
+      #{$card} {
+        &__img {
+          img {
+            transform: scale(1.06);
+          }
+        }
+      }
+    }
+    
+    &:nth-child(-n + 2) {
+      border-top: var(--border);
+    }
+    &:nth-child(2n) {
+      border-right: none;
+    }
+
+    &__subtitle {
+      padding: rem(18) rem(24);
+      border-bottom: var(--border);
+      @include tablet {
+        padding: rem(22) rem(40);
+      }
+      @include laptop {
+        padding: rem(28) rem(50);
+      }
+    }
+    
+    &__content {
+      @include flex-custom(
+        $direction: column,
+        $gap: rem(20),
+      );
+      padding: rem(18) rem(24) rem(40);
+      overflow: hidden;
+      @include tablet {
+        padding: rem(28) rem(40) rem(80);
+        gap: rem(24);
+      }
+      @include laptop {
+        padding: rem(28) rem(50) rem(100);
+        gap: rem(30);
+      }
+    }
+    
+    &__img {
+      --img-min-height: #{rem(188)};
+      --img-max-height: #{rem(425)};
+      @include flex-center();
+      max-height: clamp(var(--img-min-height), 6.956rem + 19.67vw, var(--img-max-height));
+      height: 100%;
+      overflow: hidden;
+      user-select: none;
+      border-radius: rem(10);
+      @include laptop {
+        border-radius: rem(12);
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-duration) var(--ease-quint);
+      }
+    }
+    
+    &__info {
+      @include flex-custom(
+        $direction: column,
+        $alignItems: start,
+        $gap: rem(20),
+      );
+      @include tablet {
+        gap: rem(24);
+      }
+      @include laptop {
+        gap: rem(30);
+      }
+    }
+    
+    &__desc {
+      @include flex-custom(
+        $jc: space-between,
+        $alignItems: flex-end,
+        $gap: rem(20),
+      );
+      @include tablet {
+        align-items: center;
+      }
+      
+      &-inner {
+        @include flex-custom(
+          $direction: column,
+          $gap: rem(10),
+        );
+        overflow: hidden;
+      }
+    }
+    
+    &__link {
+      @include text-overflow();
+      padding-block: rem(10);
+      transition: var(--transition-duration) var(--ease-quint);
+      @include tablet {
+        padding-block: rem(8);
+      }
+      @include hover() {
+        color: var(--color-green-50);
+      }
+    }
+    
+    &__btn {
+      @include square(46);
+      @include flex-center(true);
+      flex-shrink: 0;
+      position: relative;
+      z-index: var(--z-index-1);
+      overflow: hidden;
+      border-radius: rem(6);
+      background-color: var(--color-dark-15);
+      transition: var(--transition-duration) var(--ease-quint);
+      @include laptop {
+        @include square(54);
+        border-radius: rem(8);
+      }
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: var(--z-index-behind);
+        transform: scale(.2);
+        opacity: 0;
+        border-radius: inherit;
+        background-color: var(--color-gray-30);
+        transition: transform var(--transition-duration) var(--ease-quint),
+        opacity var(--transition-duration) ease-out .1s;
+      }
+      
+      @include hover() {
+        &::before {
+          transform: scale(1);
+          opacity: 1;
+        }
+        
+        #{$card} {
+          &__btn-icon {
+            transform: rotate(45deg);
+          }
+        }
+      }
+      
+      &-icon {
+        @include square(26);
+        @include laptop {
+          @include square(34);
+        }
+        font-size: 0;
+        transition: transform var(--transition-duration) var(--ease-quint);
+      }
+    }
+  }
+</style>

@@ -1,0 +1,155 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface ButtonProps {
+  className: string;
+  variant: "default" | "accent" | "secondary";
+  size: "sm" | "md" | "lg";
+  icon: {
+    name: string;
+    side: "left" | "right";
+    width: number;
+    height: number;
+  };
+  radius: string;
+  hoverEffect: boolean;
+}
+
+const {
+  className,
+  variant,
+  icon,
+  size,
+  radius,
+  hoverEffect,
+  ...rest
+} = Astro.props as ButtonProps;
+
+const Tag = Astro.props.href ? "a" : "button";
+
+const slotContent = await Astro.slots.render('default');
+---
+
+<Tag
+  class:list={["btn", className]}
+  data-variant={variant}
+  data-size={size}
+  data-radius={radius}
+  {...rest}
+>
+  {icon && icon.side === "left" && (
+    <Icon
+       class:list={["btn-icon"]}
+       name={icon.name}
+       width={icon.width}
+       height={icon.height}
+    />
+  )}
+  
+  {hoverEffect ? (
+    <span class="btn__text-wrap">
+      <span class="btn__text" data-hover-effect={slotContent} set:html={slotContent} />
+    </span>
+  ) :
+    <slot />
+  }
+  
+  {icon && icon.side === "right" && (
+     <Icon
+        class:list={["btn-icon"]}
+        name={icon.name}
+        width={icon.width}
+        height={icon.height}
+     />
+  )}
+</Tag>
+
+<style lang="scss" is:global>
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+  
+  .btn {
+    $btn: &;
+    padding: rem(14) rem(24);
+    overflow: hidden;
+    border-radius: rem(6);
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--color-gray-90);
+    @include tablet {
+      font-size: rem(14);
+    }
+    @include laptop {
+      font-size: rem(18);
+    }
+    @include flex-center(true);
+    
+    &__text-wrap {
+      overflow: hidden;
+    }
+    
+    &__text {
+      position: relative;
+      display: inline-block;
+      transition: transform var(--transition-duration) var(--ease-quint);
+      &::before {
+        content: attr(data-hover-effect);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: transform var(--transition-duration) var(--ease-quint);
+      }
+    }
+    
+    @include hover() {
+      &:not(.is-active) {
+        #{$btn}__text {
+          transform: translateY(-100%);
+        }
+      }
+    }
+  }
+  
+  /* variants */
+  [data-variant="default"] {
+    @include styled-button(
+      $bg: var(--color-dark-15),
+      $color: var(--color-light),
+    );
+  }
+
+  [data-variant="accent"] {
+    @include styled-button(
+      $bg: var(--color-green-50),
+      $color: var(--color-dark-15),
+    );
+  }
+  
+  /* sizes */
+  [data-size="sm"] {
+    padding: rem(12) rem(18);
+    @include laptop {
+      padding: rem(16) rem(24);
+    }
+  }
+
+  [data-size="md"] {
+    padding: rem(14) rem(16);
+    @include laptop {
+      padding: rem(18) rem(20);
+    }
+  }
+
+  [data-size="lg"] {
+    padding: rem(14) rem(20);
+    border-radius: rem(8);
+    @include tablet {
+      padding: rem(18) rem(28);
+      border-radius: rem(10);
+    }
+  }
+</style>

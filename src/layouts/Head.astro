@@ -1,0 +1,29 @@
+---
+import { ClientRouter } from 'astro:transitions';
+const { title, description } = Astro.props;
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="generator" content={Astro.generator} />
+  <meta name="keywords" content=""/>
+  <meta name="author" content="Artiom Besedin"/>
+  <meta name="HandheldFriendly" content="True"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="application-name" content="Title"/>
+  <meta name="msapplication-tooltip" content="Description"/>
+  <meta name="msapplication-window" content="width=400;height=300"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="format-detection" content="address=no"/>
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/png" href="/assets/icons/meta/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/png" href="/assets/icons/meta/web-app-manifest-192x192.png" sizes="192x192" />
+  <link rel="icon" type="image/png" href="/assets/icons/meta/web-app-manifest-512x512.png" sizes="512x512" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/meta/favicon.svg" />
+  <link rel="shortcut icon" href="/assets/icons/meta/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/meta/apple-touch-icon.png" />
+  <link rel="manifest" href="/assets/icons/meta/site.webmanifest" />
+  <title>{title}</title>
+  <ClientRouter />
+</head>

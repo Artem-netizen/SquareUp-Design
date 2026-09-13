@@ -1,0 +1,254 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import Hero from '@screens/Hero.astro';
+import Marquee from '@components/shared/Marquee.astro';
+import GridList from "@components/shared/GridList.astro";
+import Banner from '@components/ui/Banner.astro';
+import Section from "@components/ui/Section.astro";
+import Card from '@components/ui/Card.astro';
+import Accordion from '@components/ui/Accordion.astro';
+import Input from '@components/ui/Input.astro';
+
+import ourServiceData from "@data/utils/sections/data.service.json";
+import whyChooseData from "@data/utils/data.whyChoose.json";
+import authors from "@data/utils/data.authors.json";
+import dataAccordion from "@data/modules/data.accordion.json";
+import Heading from '@components/ui/Heading.astro';
+
+let limit = 4;
+
+const rightPart = dataAccordion ? dataAccordion.slice(0, limit) : [];
+const leftPart = dataAccordion ? dataAccordion.slice(limit) : [];
+---
+
+<PageLayout
+   title="A Digital Product Studio that will Work"
+   description="Transform your brand with our innovative digital solutions that captivate and engage your audience."
+>
+  <Hero />
+  <Marquee />
+  
+  <Banner
+     title="Our services"
+     description="Transform your brand with our innovative digital solutions that captivate and engage your audience."
+     currentImage="abstract-1"
+  />
+  
+  <Section bordersInline>
+    <GridList columns={3}>
+      {ourServiceData.map((item) => (
+        <Card
+           layout="icon-title"
+           icon={{
+             name: item.icon,
+             width: 40,
+             height: 40,
+           }}
+           variant="primary"
+           title={item.title}
+           text={item.description}
+           isButton
+        />
+      ))}
+    </GridList>
+  </Section>
+  
+  <Banner
+     title="Why choose squareUp?"
+     description="Experience excellence in digital craftsmanship with our team of skilled professionals dedicated to delivering exceptional results."
+     currentImage="abstract-2"
+  />
+  
+  <Section bordersInline>
+    <GridList columns={2}>
+      {whyChooseData.map((item) => (
+        <Card
+           layout="icon-title"
+           icon={{
+             name: item.icon,
+             width: 40,
+             height: 40,
+           }}
+           variant="secondary"
+           title={item.title}
+           text={item.text}
+        />
+      ))}
+    </GridList>
+  </Section>
+  
+  <Banner
+     title="What our Clients say About us"
+     description="At SquareUp, we take pride in delivering exceptional digital products and services that drive success for our clients. Here's what some of our satisfied clients have to say about their experience working with us"
+     currentImage="abstract-3"
+  />
+  
+  <Section bordersInline>
+    <GridList columns={2}>
+      {authors.map((author) => (
+        <Card
+           layout="title"
+           variant="tertiary"
+           title={author.title}
+           text={author.text}
+           isAuthor={{
+             image: author.authorImage,
+             name: author.authorName,
+             role: author.authorRole,
+           }}
+        />
+      ))}
+    </GridList>
+  </Section>
+  
+  <Banner
+     title="Frequently Asked Questions"
+     description="Still you have any questions? Contact our Team via hello@squareup.com"
+     currentImage="abstract-4"
+  />
+  
+  <Section className="accordion" bordersInline>
+    <GridList
+       className="accordion__wrapper counter"
+       columns={2}
+       minSize={560}
+    >
+      <div class="accordion-left">
+        {leftPart.map((item) => (
+          <Accordion
+            question={item.question}
+            answer={item.answer}
+          />
+        ))}
+      </div>
+      <div class="accordion-right">
+        {rightPart.map((item) => (
+           <Accordion
+              question={item.question}
+              answer={item.answer}
+           />
+        ))}
+      </div>
+    </GridList>
+  </Section>
+  
+  <Banner
+     variant="secondary"
+     icon={{
+       name: 'cube',
+       width: 42,
+       height: 48,
+     }}
+     title="Thank you for your Interest in SquareUp."
+     description="We would love to hear from you and discuss how we can help bring your digital ideas to life. Here are the different ways you can get in touch with us."
+     currentImage="abstract-5"
+     isButton
+  />
+  
+  <Section
+     stylesContainer
+     bordersInline
+  >
+    <div class="form-wrapper">
+      <form
+         class="form"
+         action="/"
+         method="post"
+         autocorrect="on"
+         autocomplete="on"
+      >
+        <GridList
+           className="form-inner"
+           minSize={425}
+           columns={2}
+           gridGap={40}
+        >
+          <div class="form-field">
+            <Heading
+              tag="h6"
+              styled={{
+                size: 'text--4xl',
+                fontWeight: 500,
+                letterSpacing: 'normal',
+              }}
+            >
+              Full Name
+            </Heading>
+            <label>
+              <Input
+                type="text"
+                name="user_name"
+              />
+            </label>
+          </div>
+          <div class="form-field">
+            <Heading
+              tag="h6"
+              styled={{
+                size: 'text--4xl',
+                fontWeight: 500,
+                letterSpacing: 'normal',
+              }}
+            >
+              Email
+            </Heading>
+            <label>
+              <Input
+                 type="email"
+                 name="user_mail"
+              />
+            </label>
+          </div>
+          <div class="form-field">
+            <Heading
+              tag="h6"
+              styled={{
+                size: 'text--4xl',
+                fontWeight: 500,
+                letterSpacing: 'normal',
+              }}
+            >
+              Why are you contacting us?
+            </Heading>
+            <Input
+               type="email"
+               name="user_mail"
+            />
+          </div>
+          <div class="form-field">
+            <Heading
+              tag="h6"
+              styled={{
+                size: 'text--4xl',
+                fontWeight: 500,
+                letterSpacing: 'normal',
+              }}
+            >
+              Your Budget
+            </Heading>
+            <Input
+               type="email"
+               name="user_mail"
+            />
+          </div>
+          <div class="form-field">
+            <Heading
+              tag="h6"
+              styled={{
+                size: 'text--4xl',
+                fontWeight: 500,
+                letterSpacing: 'normal',
+              }}
+            >
+              Your Message
+            </Heading>
+            <Input
+               type="email"
+               name="user_mail"
+            />
+          </div>
+        </GridList>
+      </form>
+    </div>
+  </Section>
+</PageLayout>

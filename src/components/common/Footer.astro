@@ -1,0 +1,154 @@
+---
+import BaseIcon from "@components/shared/StaticIcon.astro";
+import Button from "@components/ui/Button.astro";
+import Heading from "@components/ui/Heading.astro";
+import { navLinks } from "@data/utils/data.navLinks";
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__main">
+      <a class="logo" href="/">
+        <picture>
+          <source srcset="/assets/images/logo.webp" type="image/webp"></source>
+          <img src="/assets/images/logo.svg" alt="SquareUp logo" />
+        </picture>
+      </a>
+      
+      <nav class="nav">
+        <ul class="nav__list">
+          {navLinks.map((item) => (
+             <li class="nav__item">
+               <Button
+                  className={["nav__link"]}
+                  size="sm"
+                  href={item.path}
+                  hoverEffect
+               >
+                 {item.name}
+               </Button>
+             </li>
+          ))}
+        </ul>
+      </nav>
+      
+      <div class="footer__social social-networks">
+        <Heading
+           tag="span"
+           styled={{
+             size: 'text--lg',
+             fontWeight: 500,
+             letterSpacing: 'normal',
+           }}
+        >
+          Stay Connected
+        </Heading>
+        
+        <ul class="social-networks__list">
+          <li class="social-networks__item">
+            <BaseIcon
+               tag="a"
+               className="social-networks__link"
+               icon={{
+                 name: 'social/facebook',
+                 width: 24,
+                 height: 24,
+               }}
+               href="/"
+               aria-label="Go to Facebook"
+            />
+          </li>
+          <li class="social-networks__item">
+            <BaseIcon
+               tag="a"
+               className="social-networks__link"
+               icon={{
+                 name: 'social/twitter',
+                 width: 24,
+                 height: 24,
+               }}
+               href="/"
+               aria-label="Go to Twitter"
+            />
+          </li>
+          <li class="social-networks__item">
+            <BaseIcon
+               tag="a"
+               className="social-networks__link"
+               icon={{
+                 name: 'social/linkdn',
+                 width: 24,
+                 height: 24,
+               }}
+               href="/"
+               aria-label="Go to Linkedin"
+            />
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"></div>
+  </div>
+</footer>
+
+<style lang="scss" is:global>
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+  
+  .footer {
+    padding-block: rem(30);
+    border-top: var(--border);
+    @include tablet {
+      padding-block: rem(40);
+    }
+    @include laptop {
+      padding-block: rem(50);
+    }
+    
+    &__main {
+      @include flex-custom(
+        $wrap: wrap,
+        $alignItems: center,
+        $jc: space-between,
+        $gap: rem(30),
+      );
+      padding-bottom: rem(30);
+      border-bottom: var(--border);
+      @include tablet {
+        padding-bottom: rem(40);
+      }
+      @include laptop {
+        padding-bottom: rem(50);
+      }
+    }
+  }
+  
+  /* socials */
+  .social-networks {
+    @include flex-custom(
+      true,
+      $alignItems: center,
+      $gap: rem(14),
+    );
+    padding: rem(14) rem(14) rem(14) rem(24);
+    border: var(--border);
+    border-radius: rem(8);
+    @include tablet {
+      gap: rem(20);
+    }
+    @include laptop {
+      border-radius: rem(12);
+    }
+    
+    &__list {
+      @include flex-custom(
+        $alignItems: center,
+        $gap: rem(10),
+      );
+      @include laptop {
+        gap: rem(14);
+      }
+    }
+  }
+</style>

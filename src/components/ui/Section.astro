@@ -1,0 +1,77 @@
+---
+import Heading from "@components/ui/Heading.astro";
+
+interface SectionProps {
+  className: string;
+  id: string;
+  bordersInline: boolean;
+  stylesContainer: boolean;
+}
+
+const {
+  className,
+  id,
+  bordersInline = false,
+  stylesContainer = false,
+  ...rest
+} = Astro.props;
+---
+
+<section class:list={[className]} id={id} {...rest}>
+  <div class:list={['container', stylesContainer ? 'is-auto' : '', bordersInline ? 'is-inline' : '']}>
+    <slot />
+  </div>
+</section>
+
+<style lang="scss" is:global>
+  @import "@styles/helpers/functions.scss";
+  @import "@styles/helpers/mixins.scss";
+  @import "@styles/helpers/media.scss";
+  
+  .is-auto {
+    width: auto;
+    border-inline: unset;
+    @include tablet {
+      width: var(--container-calc-width);
+      @include borderInline();
+    }
+  }
+  
+  .is-inline {
+    @include borderInline();
+  }
+  
+  .desc {
+    @include flex-custom(
+      $direction: column,
+      $alignItems: start,
+      $gap: rem(30),
+    );
+    padding: rem(38) rem(14) rem(38);
+    border-top: var(--border);
+    @include tablet {
+      padding: rem(78) rem(38) rem(38);
+      gap: rem(40);
+    }
+    @include laptop {
+      padding: rem(118) rem(48) rem(48);
+      gap: rem(50);
+    }
+    &:first-of-type {
+      border-top: none;
+    }
+
+    &__inner {
+      @include flex-custom(
+        $direction: column,
+        $gap: rem(6),
+      );
+      @include tablet {
+        gap: rem(10);
+      }
+      @include laptop {
+        gap: rem(14);
+      }
+    }
+  }
+</style>
